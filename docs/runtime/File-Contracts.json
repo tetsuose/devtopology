@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-07T11:58:04.590981+00:00",
+  "updated_at": "2026-04-07T12:02:03.569034+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -87,6 +87,7 @@
       }
     },
     {
+      "notes": "",
       "path": "docs/runtime/Manifest-Contract-System.md",
       "kind": "doc",
       "module": "docs",
@@ -95,8 +96,7 @@
         "purpose": "Reference documentation for the contract system — ledger structure, stages, gates, and lifecycle",
         "invariants": "Must accurately describe all three gates, all seven stages, and the ledger schema; must match engine/index.py behavior",
         "verification": "Gate names and output formats match actual engine output; stage list matches POLICY_STAGE_VALUES"
-      },
-      "notes": ""
+      }
     },
     {
       "notes": "",
@@ -109,6 +109,90 @@
         "invariants": "Zero external dependencies; all gate output uses GATE_PASS/GATE_FAIL structured format; config read from guardrails.yaml; no hardcoded domain-specific paths",
         "verification": "make start, make verify, and make writeback-apply WRITE=1 all complete without error"
       }
+    },
+    {
+      "path": "examples/minimal/README.md",
+      "kind": "doc",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Walkthrough for the minimal single-module example project",
+        "invariants": "Must describe the example structure and how to adapt it to a real project",
+        "verification": "Referenced file paths match actual example contents"
+      },
+      "notes": ""
+    },
+    {
+      "path": "examples/minimal/docs/runtime/File-Contracts.json",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Sample ledger showing 3 files with filled contracts at different stages",
+        "invariants": "Must be valid ledger schema; no placeholder contracts; demonstrates realistic entries",
+        "verification": "JSON parses without error; all entries have non-TODO contract fields"
+      },
+      "notes": ""
+    },
+    {
+      "path": "examples/minimal/guardrails.yaml",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Minimal guardrails config showing only required settings (ledger + exclusions)",
+        "invariants": "Must be valid YAML parseable by built-in parser; only essential keys",
+        "verification": "Config loads without error in engine/index.py"
+      },
+      "notes": ""
+    },
+    {
+      "path": "examples/monorepo/README.md",
+      "kind": "doc",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Walkthrough for the multi-module example demonstrating scope enforcement and mixed stages",
+        "invariants": "Must explain module isolation, stage-based gating, and enforce-fill usage",
+        "verification": "Referenced modules and stages match the example File-Contracts.json"
+      },
+      "notes": ""
+    },
+    {
+      "path": "examples/monorepo/docs/runtime/File-Contracts.json",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Sample ledger showing 8 files across 5 modules at different maturity stages",
+        "invariants": "Must be valid ledger schema; demonstrates realistic multi-module contracts with varying stages",
+        "verification": "JSON parses without error; modules span api/web/shared/worker/deploy"
+      },
+      "notes": ""
+    },
+    {
+      "path": "examples/monorepo/guardrails.yaml",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Full guardrails config showing all available settings including protected branches and scope enforcement",
+        "invariants": "Must be valid YAML; demonstrates all config keys from guardrails.yaml reference",
+        "verification": "Config loads without error; all keys are documented in README"
+      },
+      "notes": ""
+    },
+    {
+      "path": "gate/report.sh",
+      "kind": "script",
+      "module": "gate",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Standalone bash gate parser — reads a log file, extracts GATE_PASS/GATE_FAIL lines, outputs JSON",
+        "invariants": "Pure bash, no Python dependency; JSON output matches engine gate-report schema; exit 1 on any GATE_FAIL",
+        "verification": "bash gate/report.sh on verify log produces valid JSON with correct pass/fail counts"
+      },
+      "notes": ""
     },
     {
       "notes": "",
@@ -135,6 +219,7 @@
       }
     },
     {
+      "notes": "",
       "path": "skills/repo-guardrails/SKILL.md",
       "kind": "doc",
       "module": "skills",
@@ -143,10 +228,9 @@
         "purpose": "Claude Code skill providing step-by-step workflow for agents using repo-guardrails",
         "invariants": "Must reference actual make targets; rules must match CLAUDE.md and engine behavior",
         "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
-      },
-      "notes": ""
+      }
     }
   ],
   "retired_entries": [],
-  "last_structure_digest": "cc15cf4e21080ae5486ac619082e8c55c1f402e6831394dd0e1cf3af7b965c00"
+  "last_structure_digest": "0f04ba9b19164e988404c6ce59dca11edad7e506f5c15fe0b2dd5991d5d07e7e"
 }

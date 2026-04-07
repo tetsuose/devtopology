@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "updated_at": "2026-04-07T00:00:00+00:00",
+  "policy": {
+    "stage_values": ["scaffolded", "baseline", "planned", "implemented", "verified", "done", "deprecated"],
+    "replan_rule": "When repo structure changes, run `make writeback-apply WRITE=1` before continuing."
+  },
+  "entries": [
+    {
+      "path": "api/handler.go",
+      "kind": "code",
+      "module": "api",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "HTTP handler dispatching requests to service layer",
+        "invariants": "No direct database access; all state through service interfaces",
+        "verification": "go test ./api/ passes; handler returns 400 on malformed input"
+      },
+      "notes": ""
+    },
+    {
+      "path": "api/middleware.go",
+      "kind": "code",
+      "module": "api",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Request middleware chain — auth, logging, rate limiting",
+        "invariants": "Middleware order: auth before rate-limit before handler; never mutates request body",
+        "verification": "go test ./api/ covers unauthenticated and rate-limited scenarios"
+      },
+      "notes": ""
+    },
+    {
+      "path": "web/src/App.tsx",
+      "kind": "code",
+      "module": "web",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Root React component — routing and global providers",
+        "invariants": "No business logic in this file; only layout and route definitions",
+        "verification": "npm test passes; app renders without console errors"
+      },
+      "notes": ""
+    },
+    {
+      "path": "web/src/hooks/useApi.ts",
+      "kind": "code",
+      "module": "web",
+      "stage": "planned",
+      "contract": {
+        "purpose": "React hook wrapping API calls with loading/error state",
+        "invariants": "All API calls go through this hook; never fetch directly in components",
+        "verification": "Hook returns loading=true initially; errors populate error field"
+      },
+      "notes": "Stage: planned — interface defined, implementation pending"
+    },
+    {
+      "path": "shared/types.go",
+      "kind": "code",
+      "module": "shared",
+      "stage": "verified",
+      "contract": {
+        "purpose": "Shared domain types used by both api and worker modules",
+        "invariants": "No imports from api/ or web/; only stdlib and shared/ imports allowed",
+        "verification": "go vet ./shared/ passes; no circular import detected"
+      },
+      "notes": ""
+    },
+    {
+      "path": "worker/processor.go",
+      "kind": "code",
+      "module": "worker",
+      "stage": "baseline",
+      "contract": {
+        "purpose": "Background job processor consuming from message queue",
+        "invariants": "Must be idempotent; duplicate messages must not cause side effects",
+        "verification": "go test ./worker/ covers duplicate and out-of-order delivery"
+      },
+      "notes": ""
+    },
+    {
+      "path": "deploy/docker-compose.yaml",
+      "kind": "config",
+      "module": "deploy",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Local development environment — api, web, database, and queue services",
+        "invariants": "No production secrets; all credentials use default dev values",
+        "verification": "docker compose up starts all services; health checks pass within 30s"
+      },
+      "notes": ""
+    },
+    {
+      "path": "Makefile",
+      "kind": "script",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Top-level build orchestration — build, test, lint, deploy targets per module",
+        "invariants": "Module-specific targets prefixed with module name (api-build, web-build); guardrails targets unprefixed",
+        "verification": "make help lists all targets; make test runs all module tests"
+      },
+      "notes": ""
+    }
+  ],
+  "retired_entries": [],
+  "last_structure_digest": "example"
+}

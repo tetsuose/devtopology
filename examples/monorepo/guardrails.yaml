@@ -1,0 +1,17 @@
+ledger: docs/runtime/File-Contracts.json
+index_dir: .index
+exclude:
+  - "vendor/"
+  - "node_modules/"
+  - "dist/"
+protected_branches:
+  - main
+  - develop
+  - "release/*"
+fill_allowed_stages:
+  - planned
+  - implemented
+  - verified
+  - done
+fill_exempt:
+  - "docs/runtime/File-Contracts.json"
