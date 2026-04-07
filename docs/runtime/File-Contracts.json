@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-07T11:53:23.627833+00:00",
+  "updated_at": "2026-04-07T11:58:04.590981+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -27,6 +27,7 @@
       }
     },
     {
+      "notes": "",
       "path": "CLAUDE.md",
       "kind": "doc",
       "module": ".",
@@ -35,8 +36,7 @@
         "purpose": "Project-specific instructions for Claude Code — key commands, architecture overview, and rules",
         "invariants": "Must stay in sync with actual commands and architecture; must include the zero-dependencies and no-personal-info rules",
         "verification": "All commands listed are valid make targets; rules match project conventions"
-      },
-      "notes": ""
+      }
     },
     {
       "notes": "",
@@ -87,6 +87,18 @@
       }
     },
     {
+      "path": "docs/runtime/Manifest-Contract-System.md",
+      "kind": "doc",
+      "module": "docs",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Reference documentation for the contract system — ledger structure, stages, gates, and lifecycle",
+        "invariants": "Must accurately describe all three gates, all seven stages, and the ledger schema; must match engine/index.py behavior",
+        "verification": "Gate names and output formats match actual engine output; stage list matches POLICY_STAGE_VALUES"
+      },
+      "notes": ""
+    },
+    {
       "notes": "",
       "path": "engine/index.py",
       "kind": "script",
@@ -121,8 +133,20 @@
         "invariants": "Never operates on protected branches; all output uses structured TASK_* format; no hardcoded branch prefixes beyond task/docs/workflow",
         "verification": "task-open creates worktree; task-status reports correct metrics; task-close suggests correct next action"
       }
+    },
+    {
+      "path": "skills/repo-guardrails/SKILL.md",
+      "kind": "doc",
+      "module": "skills",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Claude Code skill providing step-by-step workflow for agents using repo-guardrails",
+        "invariants": "Must reference actual make targets; rules must match CLAUDE.md and engine behavior",
+        "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
+      },
+      "notes": ""
     }
   ],
   "retired_entries": [],
-  "last_structure_digest": "b0fe6a5e4dbad1c42ad03c9fa765cfcb2f11ec4c3df7fa4d905fecfd69e4ec55"
+  "last_structure_digest": "cc15cf4e21080ae5486ac619082e8c55c1f402e6831394dd0e1cf3af7b965c00"
 }
