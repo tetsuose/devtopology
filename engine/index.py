@@ -46,7 +46,7 @@ def load_config(repo_root: Path) -> dict[str, Any]:
         "index_dir": ".index",
         "exclude": ["vendor/", "node_modules/", ".cache/", "dist/", "build/"],
         "fill_allowed_stages": ["planned", "implemented", "verified", "done"],
-        "fill_exempt": [".codex/", "docs/runtime/File-Contracts.json", "docs/runtime/Fill-Queue.md"],
+        "fill_exempt": ["docs/runtime/File-Contracts.json"],
     }
     config_path = repo_root / "guardrails.yaml"
     if not config_path.exists():

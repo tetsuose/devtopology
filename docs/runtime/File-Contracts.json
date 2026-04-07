@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "",
+  "updated_at": "2026-04-07T11:53:23.627833+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -13,6 +13,116 @@
     ],
     "replan_rule": "When repo structure changes, run `make writeback-apply WRITE=1` before continuing."
   },
-  "entries": [],
-  "retired_entries": []
+  "entries": [
+    {
+      "notes": "",
+      "path": ".gitignore",
+      "kind": "config",
+      "module": ".",
+      "stage": "verified",
+      "contract": {
+        "purpose": "Exclude generated index artifacts, Python bytecode, and OS files from version control",
+        "invariants": "Must include .index/ and __pycache__/; never track generated artifacts",
+        "verification": "No gitignored files appear in git status"
+      }
+    },
+    {
+      "path": "CLAUDE.md",
+      "kind": "doc",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Project-specific instructions for Claude Code — key commands, architecture overview, and rules",
+        "invariants": "Must stay in sync with actual commands and architecture; must include the zero-dependencies and no-personal-info rules",
+        "verification": "All commands listed are valid make targets; rules match project conventions"
+      },
+      "notes": ""
+    },
+    {
+      "notes": "",
+      "path": "LICENSE",
+      "kind": "asset",
+      "module": ".",
+      "stage": "verified",
+      "contract": {
+        "purpose": "MIT license granting usage, modification, and distribution rights",
+        "invariants": "Must remain MIT; copyright line must not contain personal identifiers",
+        "verification": "File exists and contains standard MIT text"
+      }
+    },
+    {
+      "notes": "",
+      "path": "Makefile",
+      "kind": "script",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Task orchestration layer exposing all guardrails operations as make targets",
+        "invariants": "All targets delegate to engine/index.py or scripts/worktree.sh; no business logic in Makefile itself; every target listed in make help",
+        "verification": "make help lists all targets; each target runs without error on a clean repo"
+      }
+    },
+    {
+      "notes": "",
+      "path": "README.md",
+      "kind": "doc",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Project overview, quick start guide, and command reference for new users",
+        "invariants": "Must document all make targets; examples must use generic non-domain-specific code; no personal info or origin-project references",
+        "verification": "All commands listed match actual Makefile targets"
+      }
+    },
+    {
+      "notes": "",
+      "path": "docs/runtime/File-Contracts.json",
+      "kind": "doc",
+      "module": "docs",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Persistent ledger tracking per-file contracts (purpose/invariants/verification) and maturity stages",
+        "invariants": "Schema must include version, policy, entries array; every tracked file has exactly one entry; no placeholder TODO values in shipped contracts",
+        "verification": "make verify passes both structure_contract_coverage and changed_file_contract_semantics gates"
+      }
+    },
+    {
+      "notes": "",
+      "path": "engine/index.py",
+      "kind": "script",
+      "module": "engine",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Core engine implementing the mirror/atlas/contracts/writeback/gates pipeline using Python stdlib only",
+        "invariants": "Zero external dependencies; all gate output uses GATE_PASS/GATE_FAIL structured format; config read from guardrails.yaml; no hardcoded domain-specific paths",
+        "verification": "make start, make verify, and make writeback-apply WRITE=1 all complete without error"
+      }
+    },
+    {
+      "notes": "",
+      "path": "guardrails.yaml",
+      "kind": "config",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Project-level configuration for ledger path, exclusions, protected branches, and gate settings",
+        "invariants": "All paths relative to repo root; must be parseable by the built-in YAML parser in engine/index.py; no personal info or machine-specific paths",
+        "verification": "engine/index.py loads config without error; all referenced paths resolve correctly"
+      }
+    },
+    {
+      "notes": "",
+      "path": "scripts/worktree.sh",
+      "kind": "script",
+      "module": "scripts",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Task isolation via git worktrees — creates, monitors, and closes per-task sandboxes",
+        "invariants": "Never operates on protected branches; all output uses structured TASK_* format; no hardcoded branch prefixes beyond task/docs/workflow",
+        "verification": "task-open creates worktree; task-status reports correct metrics; task-close suggests correct next action"
+      }
+    }
+  ],
+  "retired_entries": [],
+  "last_structure_digest": "b0fe6a5e4dbad1c42ad03c9fa765cfcb2f11ec4c3df7fa4d905fecfd69e4ec55"
 }

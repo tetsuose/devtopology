@@ -37,6 +37,4 @@ fill_allowed_stages:
 
 # Paths exempt from fill-scope enforcement (glob patterns)
 fill_exempt:
-  - ".codex/"
   - "docs/runtime/File-Contracts.json"
-  - "docs/runtime/Fill-Queue.md"
