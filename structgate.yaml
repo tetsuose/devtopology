@@ -1,0 +1,40 @@
+# StructGate configuration
+# Place this file at your project root.
+
+# Where the file-contracts ledger lives (tracked in git)
+ledger: docs/runtime/File-Contracts.json
+
+# Where generated index artifacts go (gitignored)
+index_dir: .index
+
+# Glob patterns to exclude from indexing
+exclude:
+  - "vendor/"
+  - "node_modules/"
+  - ".cache/"
+  - "dist/"
+  - "build/"
+
+# Branches that task-open will refuse to use
+protected_branches:
+  - main
+  - master
+  - develop
+  - "release/*"
+
+# Worktree root for task isolation (relative to repo root)
+worktree_root: ../.worktrees
+
+# Default base branch for task operations
+base_branch: origin/main
+
+# Default allowed stages for enforce-fill scope gate
+fill_allowed_stages:
+  - planned
+  - implemented
+  - verified
+  - done
+
+# Paths exempt from fill-scope enforcement (glob patterns)
+fill_exempt:
+  - "docs/runtime/File-Contracts.json"

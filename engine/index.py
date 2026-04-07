@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""repo-guardrails: Structure-aware guardrails for AI coding agents.
+"""StructGate: Structure-aware gates for AI coding agents.
 
 Provides: Mirror (file inventory) / Atlas (module aggregation) / File-Contracts
 (per-file purpose/invariants/verification) / Writeback (drift detection+fix) /
@@ -40,7 +40,7 @@ def find_repo_root() -> Path:
 
 
 def load_config(repo_root: Path) -> dict[str, Any]:
-    """Load guardrails.yaml from repo root, with sane defaults."""
+    """Load structgate.yaml from repo root, with sane defaults."""
     defaults: dict[str, Any] = {
         "ledger": "docs/runtime/File-Contracts.json",
         "index_dir": ".index",
@@ -48,7 +48,7 @@ def load_config(repo_root: Path) -> dict[str, Any]:
         "fill_allowed_stages": ["planned", "implemented", "verified", "done"],
         "fill_exempt": ["docs/runtime/File-Contracts.json"],
     }
-    config_path = repo_root / "guardrails.yaml"
+    config_path = repo_root / "structgate.yaml"
     if not config_path.exists():
         return defaults
 
@@ -494,7 +494,7 @@ def build_mirror(
     if drift["stale"]:
         warnings.append(f"stale_contract_entries={len(drift['stale'])}")
     return {
-        "version": 1, "generated_at": now_iso(), "source": "repo-guardrails",
+        "version": 1, "generated_at": now_iso(), "source": "structgate",
         "structure_digest": digest,
         "meta": {"warnings": warnings, "drift": {
             "missing_contract_entries": len(drift["missing"]),
@@ -546,7 +546,7 @@ def build_atlas(
     total_bytes = sum(observed[p]["bytes"] for p in files)
     total_lines = sum(observed[p]["lines"] for p in files)
     return {
-        "version": 1, "generated_at": now_iso(), "source": "repo-guardrails",
+        "version": 1, "generated_at": now_iso(), "source": "structgate",
         "structure_digest": digest,
         "overview": {
             "file_count": len(files), "total_bytes": total_bytes, "total_lines": total_lines,
@@ -573,7 +573,7 @@ def build_contract_snapshot(
         item["observed"] = {"lines": obs["lines"], "bytes": obs["bytes"], "sha256": obs["sha256"]}
         rows.append(item)
     return {
-        "version": 1, "generated_at": now_iso(), "source": "repo-guardrails",
+        "version": 1, "generated_at": now_iso(), "source": "structgate",
         "structure_digest": digest,
         "summary": {
             "entry_count": len(rows),
@@ -989,8 +989,8 @@ def run_gate_report(log_path: str) -> int:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        prog="repo-guardrails",
-        description="Structure-aware guardrails for AI coding agents",
+        prog="structgate",
+        description="Structure-aware gates for AI coding agents",
     )
     sub = parser.add_subparsers(dest="cmd", required=True)
 

@@ -1,12 +1,12 @@
 # Minimal Example
 
-A single-module project with three files demonstrating the basics of repo-guardrails.
+A single-module project with three files demonstrating the basics of StructGate.
 
 ## Structure
 
 ```
 minimal/
-├── guardrails.yaml                    # Config (only ledger + exclusions)
+├── structgate.yaml                    # Config (only ledger + exclusions)
 ├── docs/runtime/File-Contracts.json   # Ledger with 3 entries
 ├── app.py                             # Application code
 ├── config.yaml                        # Application config
@@ -21,7 +21,7 @@ minimal/
 
 ## To use as a starting point
 
-1. Copy `engine/`, `scripts/`, and `Makefile` from the repo-guardrails root into your project
-2. Copy `guardrails.yaml` and `docs/runtime/File-Contracts.json` as templates
+1. Copy `engine/`, `scripts/`, and `Makefile` from the StructGate root into your project
+2. Copy `structgate.yaml` and `docs/runtime/File-Contracts.json` as templates
 3. Run `make writeback-apply WRITE=1` to auto-discover your actual files
 4. Fill in contracts for each file

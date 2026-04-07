@@ -1,8 +1,8 @@
-# repo-guardrails
+# StructGate
 
-Structure-aware guardrails for AI coding agents.
+Structure-aware gates for AI coding agents.
 
-AI agents drift. They forget your repo topology, revert to old paths, create redundant files, and touch modules they shouldn't. **repo-guardrails** solves this with machinery, not instructions.
+AI agents drift. They forget your repo topology, revert to old paths, create redundant files, and touch modules they shouldn't. **StructGate** solves this with machinery, not instructions.
 
 ## What it does
 
@@ -19,7 +19,7 @@ AI agents drift. They forget your repo topology, revert to old paths, create red
 
 ```bash
 # 1. Copy into your project
-cp -r engine/ scripts/ Makefile guardrails.yaml docs/ /path/to/your-repo/
+cp -r engine/ scripts/ Makefile structgate.yaml docs/ /path/to/your-repo/
 
 # 2. Initialize contracts for all existing files
 cd /path/to/your-repo
@@ -118,7 +118,7 @@ These are machine-parseable. `make gate-report` collects them into a JSON report
 
 ## Configuration
 
-`guardrails.yaml` at your repo root:
+`structgate.yaml` at your repo root:
 
 ```yaml
 ledger: docs/runtime/File-Contracts.json

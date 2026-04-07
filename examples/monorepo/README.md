@@ -6,7 +6,7 @@ A multi-module project with 5 modules at different maturity stages, demonstratin
 
 ```
 monorepo/
-├── guardrails.yaml
+├── structgate.yaml
 ├── docs/runtime/File-Contracts.json    # 8 entries across 5 modules
 ├── Makefile
 ├── api/                                # Go HTTP API (implemented)

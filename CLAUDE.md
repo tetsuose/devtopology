@@ -1,8 +1,8 @@
-# CLAUDE.md — repo-guardrails
+# CLAUDE.md — StructGate
 
 ## What this project is
 
-A structure-aware guardrails framework for AI coding agents. Zero external dependencies (Python stdlib + bash + git only).
+A structure-aware gates framework for AI coding agents. Zero external dependencies (Python stdlib + bash + git only).
 
 ## Key commands
 
@@ -18,7 +18,7 @@ make health                   # Full health summary
 - `engine/index.py` — Core engine (~1050 lines). Mirror/Atlas/Contracts/Writeback/Gates pipeline.
 - `scripts/worktree.sh` — Task isolation via git worktrees.
 - `Makefile` — Thin orchestration layer. All targets delegate to the above two.
-- `guardrails.yaml` — Project config. All paths/exclusions/branches configurable here.
+- `structgate.yaml` — Project config. All paths/exclusions/branches configurable here.
 - `docs/runtime/File-Contracts.json` — The ledger. Tracked in git. Every file gets a contract entry.
 
 ## Rules

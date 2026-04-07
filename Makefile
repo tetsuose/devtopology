@@ -16,7 +16,7 @@ WORKTREE_ROOT ?= ../.worktrees
 
 help:
 	@echo ""
-	@echo "  repo-guardrails — structure-aware guardrails for AI coding agents"
+	@echo "  StructGate — structure-aware gates for AI coding agents"
 	@echo ""
 	@echo "  Structure Awareness"
 	@echo "    make start QUERY='...'        Generate atlas-pack + detect drift"
@@ -91,14 +91,14 @@ enforce-fill:
 # --- Task Isolation ---
 
 task-open:
-	@GUARDRAILS_BASE="$(BASE)" GUARDRAILS_WORKTREE_ROOT="$(WORKTREE_ROOT)" \
+	@STRUCTGATE_BASE="$(BASE)" STRUCTGATE_WORKTREE_ROOT="$(WORKTREE_ROOT)" \
 		bash scripts/worktree.sh open --query "$(QUERY)" --kind "$(TASK_KIND)" --base "$(BASE)" --root "$(WORKTREE_ROOT)"
 
 task-check:
 	@bash scripts/worktree.sh check
 
 task-status:
-	@GUARDRAILS_BASE="$(BASE)" bash scripts/worktree.sh status --base "$(BASE)"
+	@STRUCTGATE_BASE="$(BASE)" bash scripts/worktree.sh status --base "$(BASE)"
 
 task-close:
-	@GUARDRAILS_BASE="$(BASE)" bash scripts/worktree.sh close --base "$(BASE)"
+	@STRUCTGATE_BASE="$(BASE)" bash scripts/worktree.sh close --base "$(BASE)"
