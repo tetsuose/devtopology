@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "updated_at": "",
+  "policy": {
+    "stage_values": [
+      "scaffolded",
+      "baseline",
+      "planned",
+      "implemented",
+      "verified",
+      "done",
+      "deprecated"
+    ],
+    "replan_rule": "When repo structure changes, run `make writeback-apply WRITE=1` before continuing."
+  },
+  "entries": [],
+  "retired_entries": []
+}
