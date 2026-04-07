@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-07T13:11:32.421673+00:00",
+  "updated_at": "2026-04-07T13:21:24.738039+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -27,6 +27,7 @@
       }
     },
     {
+      "notes": "",
       "path": "AGENTS.md",
       "kind": "doc",
       "module": ".",
@@ -35,8 +36,7 @@
         "purpose": "Cross-platform agent instructions (AGENTS.md standard) — workflow, contract format, and key commands",
         "invariants": "Must follow AGENTS.md open standard format; commands must match actual Makefile targets; compatible with Codex, Cursor, Copilot, Gemini CLI",
         "verification": "All listed commands are valid make targets; contract format example matches ledger schema"
-      },
-      "notes": ""
+      }
     },
     {
       "notes": "",
@@ -297,5 +297,5 @@
       "removed_at": "2026-04-07T13:10:25.951069+00:00"
     }
   ],
-  "last_structure_digest": "22f2a757c1f40ee075af298fc5eb093e2ead24594625de3df56015d5c8ca6fca"
+  "last_structure_digest": "b229078a4be9e1499389c8b847791cda98065b71cd1b69d77e34244cfa7f17c5"
 }

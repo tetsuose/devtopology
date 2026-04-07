@@ -1,87 +1,59 @@
+<div align="center">
+
 # StructGate
 
-Structure-aware gates for AI coding agents.
+**Structure-aware gates for AI coding agents.**
 
-AI agents drift. They forget your repo topology, revert to old paths, create redundant files, and touch modules they shouldn't. **StructGate** solves this with machinery, not instructions.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](#design-principles)
 
-## What it does
+</div>
 
-| Problem | Solution |
-|---------|----------|
-| Agent forgets repo structure across sessions | **Mirror/Atlas** generates a real-time topology map from git |
-| Agent creates files without documenting them | **File-Contracts** tracks purpose/invariants/verification per file |
-| Files are added/removed but contracts go stale | **Writeback** detects and fixes contract drift automatically |
-| Agent modifies code outside its task scope | **Enforce-Fill** gates changes to a declared module |
-| Parallel tasks pollute each other | **Worktree isolation** gives each task its own sandbox |
-| Gates produce unstructured output | **Gate Report** parses `GATE_PASS`/`GATE_FAIL` into structured JSON |
+---
 
-## Quick Start (5 minutes)
+AI coding agents drift. They forget your repo topology, revert to old paths, create files without contracts, and touch modules they shouldn't.
+
+**StructGate** fixes this with **hard gates**, not soft instructions. Every file gets a contract. Every change is verified. Every scope violation is blocked.
+
+## Why StructGate?
+
+- **Gates, not suggestions.** `GATE_FAIL` stops the agent. It's not a warning to ignore.
+- **Zero dependencies.** Python stdlib only. Runs anywhere git and Python exist.
+- **File-level contracts.** Every file has a documented purpose, invariants, and verification method.
+- **Automatic drift detection.** Files change. StructGate detects the mismatch and fixes it.
+- **Module scope enforcement.** Physically prevent the agent from touching code outside its task.
+- **Task isolation.** One worktree per task. No cross-task pollution.
+
+## Quick Start
 
 ```bash
 # 1. Copy into your project
-cp -r engine/ scripts/ Makefile structgate.yaml docs/ /path/to/your-repo/
+cp -r engine/ scripts/ gate/ Makefile structgate.yaml docs/ your-project/
 
 # 2. Initialize contracts for all existing files
-cd /path/to/your-repo
+cd your-project
 make writeback-apply WRITE=1
 
-# 3. See your repo through the agent's eyes
+# 3. Generate the repo topology map
 make start QUERY="understand project structure"
 
-# 4. Check health
+# 4. Verify all gates pass
 make verify
 ```
 
-No dependencies beyond Python 3.8+ and git.
+**Expected output:**
 
-## Commands
-
-### Structure Awareness
-
-```bash
-make start QUERY="..."       # Generate atlas-pack + detect contract drift
-make mirror                  # File inventory with sha256, line counts, module/kind
-make atlas                   # Module/kind/stage aggregation
-make context QUERY="..."     # LLM-readable markdown context
+```
+GATE_PASS gate=structure_contract_coverage files=42
+GATE_PASS gate=changed_file_contract_semantics changed=0 validated=0
 ```
 
-### Contract Enforcement
-
-```bash
-make verify                  # structure_contract_coverage + changed_file_contract_semantics
-make health                  # Full health summary
-make health-strict           # Same, but exit non-zero on any gate failure
-make gate-report LOG=...     # Parse GATE_PASS/FAIL lines into JSON
-```
-
-### Drift Repair
-
-```bash
-make writeback-preview       # Show missing/stale file contracts (read-only)
-make writeback-apply WRITE=1 # Sync File-Contracts.json with actual repo files
-```
-
-### Scope Gate
-
-```bash
-make enforce-fill MODULE=api               # Only allow changes in the "api" module
-make enforce-fill MODULE=api STAGES=implemented,verified  # Restrict by stage too
-```
-
-### Task Isolation
-
-```bash
-make task-open QUERY="add auth endpoint"   # Create worktree + branch
-make task-status                            # Print branch, dirty count, ahead/behind
-make task-check                             # Fail if uncommitted changes exist
-make task-close                             # Check PR status, suggest next action
-```
+No `pip install`. No Docker. Just Python 3.8+ and git.
 
 ## How It Works
 
-### File-Contracts.json
-
-Every file in your repo gets a contract entry:
+### 1. Every file gets a contract
 
 ```json
 {
@@ -97,28 +69,83 @@ Every file in your repo gets a contract entry:
 }
 ```
 
-Stages track maturity: `scaffolded` > `baseline` > `planned` > `implemented` > `verified` > `done`.
+Contracts live in `docs/runtime/File-Contracts.json` (tracked in git). Stages track maturity:
 
-### Gates
+`scaffolded` > `baseline` > `planned` > `implemented` > `verified` > `done`
 
-All gates output a structured line:
+### 2. Gates enforce the contracts
+
+All gates output a machine-parseable line:
 
 ```
 GATE_PASS gate=structure_contract_coverage files=142
 GATE_FAIL gate=changed_file_contract_semantics violations=3 fix="Fill purpose/invariants/verification"
 ```
 
-These are machine-parseable. `make gate-report` collects them into a JSON report.
+| Gate | What it checks |
+|------|---------------|
+| **structure_contract_coverage** | Every file has a contract entry. No missing, no stale. |
+| **changed_file_contract_semantics** | Every changed file has non-placeholder purpose/invariants/verification. |
+| **fill_queue_scope** | Changed files belong to the declared module and allowed stages. |
 
-### Three Gates
+### 3. Drift is detected and fixed automatically
 
-1. **structure_contract_coverage** -- every file has a contract entry (no missing, no stale)
-2. **changed_file_contract_semantics** -- every changed file has non-placeholder purpose/invariants/verification
-3. **fill_queue_scope** -- changed files belong to the declared module and allowed stages
+```bash
+make writeback-preview       # See what's missing/stale (dry run)
+make writeback-apply WRITE=1 # Fix it — add missing entries, retire stale ones
+```
+
+## Commands
+
+<details open>
+<summary><strong>Structure Awareness</strong></summary>
+
+```bash
+make start QUERY="..."       # Generate topology + detect drift
+make mirror                  # File inventory: sha256, lines, module, kind
+make atlas                   # Module/kind/stage aggregation
+make context QUERY="..."     # LLM-readable markdown context
+```
+
+</details>
+
+<details open>
+<summary><strong>Contract Enforcement</strong></summary>
+
+```bash
+make verify                  # Run all gates
+make health                  # Full health summary
+make health-strict           # Health + non-zero exit on failure
+make gate-report LOG=...     # Parse GATE_PASS/FAIL into JSON
+```
+
+</details>
+
+<details>
+<summary><strong>Scope Gate</strong></summary>
+
+```bash
+make enforce-fill MODULE=api                              # Restrict to one module
+make enforce-fill MODULE=api STAGES=implemented,verified  # Restrict by stage too
+```
+
+</details>
+
+<details>
+<summary><strong>Task Isolation</strong></summary>
+
+```bash
+make task-open QUERY="add auth endpoint"   # Create worktree + branch
+make task-status                            # Branch, dirty count, ahead/behind
+make task-check                             # Fail if uncommitted changes
+make task-close                             # Check PR status, suggest next action
+```
+
+</details>
 
 ## Configuration
 
-`structgate.yaml` at your repo root:
+`structgate.yaml` at your project root:
 
 ```yaml
 ledger: docs/runtime/File-Contracts.json
@@ -138,26 +165,42 @@ protected_branches:
   - develop
 ```
 
-## Output Artifacts
+## Agent Integration
+
+StructGate works with any AI coding agent that reads markdown instructions:
+
+| Agent | Integration |
+|-------|------------|
+| **Claude Code** | `CLAUDE.md` + `skills/structgate/SKILL.md` (included) |
+| **Codex / Cursor / Copilot / Gemini CLI** | `AGENTS.md` (included, [open standard](https://agents.md)) |
+| **Any agent** | Run `make start` and feed the output as context |
+
+## Architecture
 
 ```
-.index/                              # gitignored, generated
-  mirror/project-mirror-latest.json  # full file inventory
-  atlas/repo-atlas-latest.json       # module/kind/stage breakdown
-  context/atlas-pack-latest.md       # LLM context summary
-  contracts/file-contracts-latest.json
-  writeback/                         # drift reports
-  health/                            # gate results
+structgate.yaml              # Configuration (all paths configurable)
+engine/index.py              # Core engine (~1050 lines, Python stdlib only)
+scripts/worktree.sh           # Task isolation (git worktrees)
+gate/report.sh               # Standalone bash gate parser
+docs/runtime/
+  File-Contracts.json        # The ledger (tracked in git)
+  Manifest-Contract-System.md # Contract system reference
+.index/                      # Generated artifacts (gitignored)
+  mirror/   atlas/   context/   contracts/   writeback/   health/
 ```
 
 ## Design Principles
 
-- **Machinery over instructions.** Don't tell the agent "don't touch module X" -- physically gate it.
-- **Zero dependencies.** Python stdlib only. Runs anywhere git and Python exist.
-- **Gates, not suggestions.** `GATE_FAIL` is a hard signal, not a warning to ignore.
-- **Drift detection, not drift prevention.** Files change. Detect the mismatch, fix it, move on.
+- **Machinery over instructions.** Don't tell the agent "don't touch module X" — physically gate it.
+- **Zero dependencies.** Python stdlib only. No pip install, no Docker, no cloud.
+- **Deterministic, not probabilistic.** Gates are hard pass/fail. No vector search, no LLM calls.
+- **Drift detection, not prevention.** Files change. Detect the mismatch, fix it, move on.
 - **One task, one worktree.** Isolation prevents cross-task contamination.
+
+## Examples
+
+See [`examples/minimal/`](examples/minimal/) for a single-module setup, or [`examples/monorepo/`](examples/monorepo/) for multi-module scope enforcement.
 
 ## License
 
-MIT
+[MIT](LICENSE)
