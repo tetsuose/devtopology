@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# StructGate: Standalone gate report parser.
+# DevTopology: Standalone gate report parser.
 # Reads a log file, extracts GATE_PASS/GATE_FAIL lines, outputs JSON summary.
 #
 # Usage:

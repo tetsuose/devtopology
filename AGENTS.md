@@ -1,6 +1,6 @@
-# AGENTS.md — StructGate
+# AGENTS.md — DevTopology
 
-> Structure-aware gates for AI coding agents.
+> Development topology for AI coding agents.
 
 ## Before starting work
 

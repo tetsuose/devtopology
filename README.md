@@ -1,8 +1,8 @@
 <div align="center">
 
-# StructGate
+# DevTopology
 
-**Structure-aware gates for AI coding agents.**
+**Development topology for AI coding agents.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8+-green.svg)](https://python.org)
@@ -14,22 +14,22 @@
 
 AI coding agents drift. They forget your repo topology, revert to old paths, create files without contracts, and touch modules they shouldn't.
 
-**StructGate** fixes this with **hard gates**, not soft instructions. Every file gets a contract. Every change is verified. Every scope violation is blocked.
+**DevTopology** fixes this with **hard gates**, not soft instructions. Every file gets a contract. Every change is verified. Every scope violation is blocked.
 
-## Why StructGate?
+## Why DevTopology?
 
-- **Gates, not suggestions.** `GATE_FAIL` stops the agent. It's not a warning to ignore.
-- **Zero dependencies.** Python stdlib only. Runs anywhere git and Python exist.
+- **Living blueprint.** Mirror + Atlas build a real-time topology map of your codebase from git.
 - **File-level contracts.** Every file has a documented purpose, invariants, and verification method.
-- **Automatic drift detection.** Files change. StructGate detects the mismatch and fixes it.
+- **Hard gates.** `GATE_FAIL` stops the agent. It's not a warning to ignore.
+- **Automatic drift detection.** Files change. DevTopology detects the mismatch and fixes it.
 - **Module scope enforcement.** Physically prevent the agent from touching code outside its task.
-- **Task isolation.** One worktree per task. No cross-task pollution.
+- **Zero dependencies.** Python stdlib only. No pip install, no Docker, no cloud.
 
 ## Quick Start
 
 ```bash
 # 1. Copy into your project
-cp -r engine/ scripts/ gate/ Makefile structgate.yaml docs/ your-project/
+cp -r engine/ scripts/ gate/ Makefile devtopology.yaml docs/ your-project/
 
 # 2. Initialize contracts for all existing files
 cd your-project
@@ -145,7 +145,7 @@ make task-close                             # Check PR status, suggest next acti
 
 ## Configuration
 
-`structgate.yaml` at your project root:
+`devtopology.yaml` at your project root:
 
 ```yaml
 ledger: docs/runtime/File-Contracts.json
@@ -167,18 +167,18 @@ protected_branches:
 
 ## Agent Integration
 
-StructGate works with any AI coding agent that reads markdown instructions:
+DevTopology works with any AI coding agent that reads markdown instructions:
 
 | Agent | Integration |
 |-------|------------|
-| **Claude Code** | `CLAUDE.md` + `skills/structgate/SKILL.md` (included) |
+| **Claude Code** | `CLAUDE.md` + `skills/devtopology/SKILL.md` (included) |
 | **Codex / Cursor / Copilot / Gemini CLI** | `AGENTS.md` (included, [open standard](https://agents.md)) |
 | **Any agent** | Run `make start` and feed the output as context |
 
 ## Architecture
 
 ```
-structgate.yaml              # Configuration (all paths configurable)
+devtopology.yaml              # Configuration (all paths configurable)
 engine/index.py              # Core engine (~1050 lines, Python stdlib only)
 scripts/worktree.sh           # Task isolation (git worktrees)
 gate/report.sh               # Standalone bash gate parser

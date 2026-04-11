@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-07T13:21:24.738039+00:00",
+  "updated_at": "2026-04-11T03:21:16.417481+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -88,6 +88,18 @@
     },
     {
       "notes": "",
+      "path": "devtopology.yaml",
+      "kind": "config",
+      "module": ".",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Project-level configuration for ledger path, exclusions, protected branches, and gate settings",
+        "invariants": "All paths relative to repo root; must be parseable by the built-in YAML parser in engine/index.py; no personal info or machine-specific paths",
+        "verification": "engine/index.py loads config without error; all referenced paths resolve correctly"
+      }
+    },
+    {
+      "notes": "",
       "path": "docs/runtime/File-Contracts.json",
       "kind": "doc",
       "module": "docs",
@@ -118,7 +130,7 @@
       "stage": "implemented",
       "contract": {
         "purpose": "Core engine implementing the mirror/atlas/contracts/writeback/gates pipeline using Python stdlib only",
-        "invariants": "Zero external dependencies; all gate output uses GATE_PASS/GATE_FAIL structured format; config read from structgate.yaml; no hardcoded domain-specific paths",
+        "invariants": "Zero external dependencies; all gate output uses GATE_PASS/GATE_FAIL structured format; config read from devtopology.yaml; no hardcoded domain-specific paths",
         "verification": "make start, make verify, and make writeback-apply WRITE=1 all complete without error"
       }
     },
@@ -136,6 +148,18 @@
     },
     {
       "notes": "",
+      "path": "examples/minimal/devtopology.yaml",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Minimal DevTopology config showing only required settings (ledger + exclusions)",
+        "invariants": "Must be valid YAML parseable by built-in parser; only essential keys",
+        "verification": "Config loads without error in engine/index.py"
+      }
+    },
+    {
+      "notes": "",
       "path": "examples/minimal/docs/runtime/File-Contracts.json",
       "kind": "config",
       "module": "examples",
@@ -144,18 +168,6 @@
         "purpose": "Sample ledger showing 3 files with filled contracts at different stages",
         "invariants": "Must be valid ledger schema; no placeholder contracts; demonstrates realistic entries",
         "verification": "JSON parses without error; all entries have non-TODO contract fields"
-      }
-    },
-    {
-      "notes": "",
-      "path": "examples/minimal/structgate.yaml",
-      "kind": "config",
-      "module": "examples",
-      "stage": "implemented",
-      "contract": {
-        "purpose": "Minimal StructGate config showing only required settings (ledger + exclusions)",
-        "invariants": "Must be valid YAML parseable by built-in parser; only essential keys",
-        "verification": "Config loads without error in engine/index.py"
       }
     },
     {
@@ -172,6 +184,18 @@
     },
     {
       "notes": "",
+      "path": "examples/monorepo/devtopology.yaml",
+      "kind": "config",
+      "module": "examples",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Full DevTopology config showing all available settings including protected branches and scope enforcement",
+        "invariants": "Must be valid YAML; demonstrates all config keys from devtopology.yaml reference",
+        "verification": "Config loads without error; all keys are documented in README"
+      }
+    },
+    {
+      "notes": "",
       "path": "examples/monorepo/docs/runtime/File-Contracts.json",
       "kind": "config",
       "module": "examples",
@@ -180,18 +204,6 @@
         "purpose": "Sample ledger showing 8 files across 5 modules at different maturity stages",
         "invariants": "Must be valid ledger schema; demonstrates realistic multi-module contracts with varying stages",
         "verification": "JSON parses without error; modules span api/web/shared/worker/deploy"
-      }
-    },
-    {
-      "notes": "",
-      "path": "examples/monorepo/structgate.yaml",
-      "kind": "config",
-      "module": "examples",
-      "stage": "implemented",
-      "contract": {
-        "purpose": "Full StructGate config showing all available settings including protected branches and scope enforcement",
-        "invariants": "Must be valid YAML; demonstrates all config keys from structgate.yaml reference",
-        "verification": "Config loads without error; all keys are documented in README"
       }
     },
     {
@@ -219,28 +231,16 @@
       }
     },
     {
-      "notes": "",
-      "path": "skills/structgate/SKILL.md",
+      "path": "skills/devtopology/SKILL.md",
       "kind": "doc",
       "module": "skills",
       "stage": "implemented",
       "contract": {
-        "purpose": "Claude Code skill providing step-by-step workflow for agents using StructGate",
+        "purpose": "Claude Code skill providing step-by-step workflow for agents using DevTopology",
         "invariants": "Must reference actual make targets; rules must match CLAUDE.md and engine behavior",
         "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
-      }
-    },
-    {
-      "notes": "",
-      "path": "structgate.yaml",
-      "kind": "config",
-      "module": ".",
-      "stage": "implemented",
-      "contract": {
-        "purpose": "Project-level configuration for ledger path, exclusions, protected branches, and gate settings",
-        "invariants": "All paths relative to repo root; must be parseable by the built-in YAML parser in engine/index.py; no personal info or machine-specific paths",
-        "verification": "engine/index.py loads config without error; all referenced paths resolve correctly"
-      }
+      },
+      "notes": ""
     }
   ],
   "retired_entries": [
@@ -295,7 +295,20 @@
         "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
       },
       "removed_at": "2026-04-07T13:10:25.951069+00:00"
+    },
+    {
+      "notes": "",
+      "path": "skills/structgate/SKILL.md",
+      "kind": "doc",
+      "module": "skills",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Claude Code skill providing step-by-step workflow for agents using DevTopology",
+        "invariants": "Must reference actual make targets; rules must match CLAUDE.md and engine behavior",
+        "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
+      },
+      "removed_at": "2026-04-11T03:21:16.417471+00:00"
     }
   ],
-  "last_structure_digest": "b229078a4be9e1499389c8b847791cda98065b71cd1b69d77e34244cfa7f17c5"
+  "last_structure_digest": "503def64f360f402a304d2b1328c44ae27145b57f41ee0ba49ec866c516a9f9d"
 }

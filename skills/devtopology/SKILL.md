@@ -1,4 +1,4 @@
-# StructGate skill
+# DevTopology skill
 
 Structure-aware gates for AI coding agents. This skill enforces file contracts, drift detection, and scope constraints.
 
@@ -42,7 +42,7 @@ make task-close                             # check PR status, suggest next acti
 
 | File | Role |
 |------|------|
-| `structgate.yaml` | Project config — exclusions, protected branches, gate settings |
+| `devtopology.yaml` | Project config — exclusions, protected branches, gate settings |
 | `docs/runtime/File-Contracts.json` | The ledger — tracked in git, one entry per file |
 | `engine/index.py` | Core engine — mirror, atlas, contracts, gates, writeback |
 | `scripts/worktree.sh` | Task isolation via git worktrees |

@@ -1,6 +1,6 @@
 # Manifest Contract System
 
-This document describes the contract system used by StructGate to track file purpose, invariants, and verification across a repository.
+This document describes the contract system used by DevTopology to track file purpose, invariants, and verification across a repository.
 
 ## Core concept
 
@@ -135,7 +135,7 @@ GATE_FAIL gate=fill_queue_scope changed=3 violations=1 fix="Constrain edits to a
 
 ## Configuration
 
-All settings live in `structgate.yaml`:
+All settings live in `devtopology.yaml`:
 
 ```yaml
 # Which files are exempt from scope enforcement

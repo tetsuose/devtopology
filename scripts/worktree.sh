@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# StructGate: Task isolation via git worktrees.
+# DevTopology: Task isolation via git worktrees.
 # Creates one worktree per task to prevent cross-task pollution.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# Load config defaults (can be overridden by structgate.yaml via Make vars)
-DEFAULT_BASE="${STRUCTGATE_BASE:-origin/main}"
-DEFAULT_WORKTREE_ROOT="${STRUCTGATE_WORKTREE_ROOT:-../.worktrees}"
+# Load config defaults (can be overridden by devtopology.yaml via Make vars)
+DEFAULT_BASE="${DEVTOPOLOGY_BASE:-origin/main}"
+DEFAULT_WORKTREE_ROOT="${DEVTOPOLOGY_WORKTREE_ROOT:-../.worktrees}"
 
 usage() {
   cat <<'EOF'
@@ -59,8 +59,8 @@ current_branch() {
 
 is_protected_branch() {
   local branch="${1:-}"
-  # Read protected patterns from env (set by Makefile from structgate.yaml)
-  local patterns="${STRUCTGATE_PROTECTED_BRANCHES:-main,master,develop,release/*}"
+  # Read protected patterns from env (set by Makefile from devtopology.yaml)
+  local patterns="${DEVTOPOLOGY_PROTECTED_BRANCHES:-main,master,develop,release/*}"
   IFS=',' read -ra pats <<< "${patterns}"
   for pat in "${pats[@]}"; do
     pat="$(echo "${pat}" | xargs)"  # trim whitespace
