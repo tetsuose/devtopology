@@ -38,3 +38,25 @@ fill_allowed_stages:
 # Paths exempt from fill-scope enforcement (glob patterns)
 fill_exempt:
   - "docs/runtime/File-Contracts.json"
+
+# Credential planes (optional, advisory only — engine does not enforce these today).
+# Document where runtime credentials live in your project so the registry in
+# docs/runtime/Env-Registry.md has unambiguous plane labels to reference.
+# See docs/runtime/Credentials-Management.md for the model.
+#
+# credential_planes:
+#   - name: operator-control
+#     path: <path to local operator config>
+#     rule: "local operator reach/command only; no runtime secrets"
+#   - name: runtime-sot
+#     path: <live target path on deployed host>
+#     rule: "edited only through explicit operator window on the live target"
+#   - name: runtime-mirror
+#     path: <local read-only copy path, gitignored>
+#     rule: "pulled from runtime-sot; never hand-edited as authority"
+#   - name: incoming-staging
+#     path: <staging file path, gitignored, deleted after apply>
+#     rule: "input only; classify, apply, validate, mirror-back, delete"
+#   - name: consumer-specific
+#     path: <per-consumer env file path>
+#     rule: "scoped to one consumer; no cross-consumer keys"

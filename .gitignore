@@ -3,3 +3,13 @@ __pycache__/
 *.pyc
 .DS_Store
 .cache/
+
+# Credential-bearing paths. The .example templates under docs/runtime/ stay in git;
+# real env files, real inventories, mirrors, and incoming-staging files do not.
+# See docs/runtime/Credentials-Management.md.
+**/secrets/
+**/*.env
+!**/*.env.example
+!**/.env.example
+docs/runtime/Env-Registry.md
+docs/runtime/Secrets-Inventory.yaml

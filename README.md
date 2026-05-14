@@ -185,9 +185,22 @@ gate/report.sh               # Standalone bash gate parser
 docs/runtime/
   File-Contracts.json        # The ledger (tracked in git)
   Manifest-Contract-System.md # Contract system reference
+  Credentials-Management.md   # Credential plane model + lifecycle (advisory)
+  Env-Registry.example.md     # Names-only env registry template
+  Secrets-Inventory.example.yaml # Operational asset + credential inventory template
 .index/                      # Generated artifacts (gitignored)
   mirror/   atlas/   context/   contracts/   writeback/   health/
 ```
+
+### Credentials
+
+File contracts cover source files. They do not cover the runtime secrets your code reads at boot. The credentials layer is a parallel doc-and-template system:
+
+- **Credential planes** — every runtime secret belongs to exactly one plane (operator-control, runtime source-of-truth, mirror, incoming-staging, consumer-specific, out-of-band backend). Planes have hard boundaries.
+- **Names-only registry** — `docs/runtime/Env-Registry.md` records `env_key | source_file | runtime_injection | primary_consumers | verify_gate`. Never values.
+- **Inventory** — `secrets-inventory.yaml` lists assets and credentials with rotation timestamps. Stored outside git; only the `.example.yaml` template is committed.
+
+See [Credentials-Management.md](docs/runtime/Credentials-Management.md) for the full model and lifecycle (incoming-staging workflow, rotation classes, atomic dual-backend rotation).
 
 ## Design Principles
 
