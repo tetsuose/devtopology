@@ -44,8 +44,23 @@ make task-close                             # check PR status, suggest next acti
 |------|------|
 | `devtopology.yaml` | Project config — exclusions, protected branches, gate settings |
 | `docs/runtime/File-Contracts.json` | The ledger — tracked in git, one entry per file |
+| `docs/runtime/Credentials-Management.md` | Credential plane model + lifecycle (parallel system, advisory) |
+| `docs/runtime/Env-Registry.example.md` | Names-only env registry template |
+| `docs/runtime/Secrets-Inventory.example.yaml` | Operational asset + credential inventory template |
 | `engine/index.py` | Core engine — mirror, atlas, contracts, gates, writeback |
 | `scripts/worktree.sh` | Task isolation via git worktrees |
+
+## Credentials (parallel system)
+
+File contracts cover source files. Runtime credentials get a separate discipline:
+
+- Every runtime secret belongs to exactly **one credential plane** (operator-control / runtime-sot / mirror / incoming-staging / consumer-specific / out-of-band-backend). Planes have hard boundaries — a key in one plane must not appear in another.
+- The **names-only registry** at `docs/runtime/Env-Registry.md` records `env_key | source_file | runtime_injection | primary_consumers | verify_gate`. Never put values in this file.
+- The **inventory** at `secrets-inventory.yaml` (gitignored) holds the real asset and credential checklist with rotation timestamps. Only the `.example.yaml` template lives in git.
+- When applying new or rotated values: use the incoming-staging workflow (8 steps) in `Credentials-Management.md`. Never edit a runtime-sot file from the local mirror.
+- When the same logical secret lives in two stores, rotation must be **atomic** across both. Mark such keys clearly in the registry.
+
+DevTopology does not gate this today. Treat it as discipline plus templates.
 
 ## Gate output format
 

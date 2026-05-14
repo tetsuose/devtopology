@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-04-11T03:21:16.417481+00:00",
+  "updated_at": "2026-05-14T15:49:45.352649+00:00",
   "policy": {
     "stage_values": [
       "scaffolded",
@@ -99,6 +99,30 @@
       }
     },
     {
+      "path": "docs/runtime/Credentials-Management.md",
+      "kind": "doc",
+      "module": "docs",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Reference for the credential-plane model, names-only registry rule, inventory rule, incoming-staging workflow, and rotation classes — a system parallel to file-contracts",
+        "invariants": "Must remain domain-agnostic (no project-specific keys, providers, or hostnames); must define plane boundaries as hard rules; must keep the registry rule and inventory rule clearly separated; must not contain real secret values or endpoints",
+        "verification": "Doc lists six plane labels with mutation rules; the eight-step incoming workflow is explicit; rotation classes have cadence and trigger columns; all examples use generic placeholders only"
+      },
+      "notes": ""
+    },
+    {
+      "path": "docs/runtime/Env-Registry.example.md",
+      "kind": "doc",
+      "module": "docs",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Names-only env registry template — defines the five-column row shape and the retired-keys audit section that consumer projects copy to Env-Registry.md",
+        "invariants": "Template contains no real env keys, no real paths, and no values; every row column is documented; retired-keys section is preserved as audit trail; source_file column is expressed in plane terms from Credentials-Management.md",
+        "verification": "File is a valid markdown table template; placeholders use angle-bracket form; no equals-sign-bearing example rows that could be mistaken for real key=value pairs"
+      },
+      "notes": ""
+    },
+    {
       "notes": "",
       "path": "docs/runtime/File-Contracts.json",
       "kind": "doc",
@@ -121,6 +145,18 @@
         "invariants": "Must accurately describe all three gates, all seven stages, and the ledger schema; must match engine/index.py behavior",
         "verification": "Gate names and output formats match actual engine output; stage list matches POLICY_STAGE_VALUES"
       }
+    },
+    {
+      "path": "docs/runtime/Secrets-Inventory.example.yaml",
+      "kind": "doc",
+      "module": "docs",
+      "stage": "implemented",
+      "contract": {
+        "purpose": "Template for the operational asset + credential inventory — defines the YAML shape consumers copy to a git-ignored secrets-inventory.yaml; lists asset surfaces (domains, hosts, contacts) separately from credential surfaces and retains a revoked-entries audit block",
+        "invariants": "Template contains only placeholder values (angle-bracket form or the literal string SECRET); never commits a populated inventory; example domains use the example.invalid TLD; audit-retention block for revoked entries is preserved",
+        "verification": "YAML parses without error; no real credentials, domains, IPs, or operator identifiers appear; every credential field carries an issued_at/next_due placeholder so rotation dates are not forgotten"
+      },
+      "notes": ""
     },
     {
       "notes": "",
@@ -231,6 +267,7 @@
       }
     },
     {
+      "notes": "",
       "path": "skills/devtopology/SKILL.md",
       "kind": "doc",
       "module": "skills",
@@ -239,8 +276,7 @@
         "purpose": "Claude Code skill providing step-by-step workflow for agents using DevTopology",
         "invariants": "Must reference actual make targets; rules must match CLAUDE.md and engine behavior",
         "verification": "All make commands listed are valid targets; workflow steps match gate requirements"
-      },
-      "notes": ""
+      }
     }
   ],
   "retired_entries": [
@@ -310,5 +346,5 @@
       "removed_at": "2026-04-11T03:21:16.417471+00:00"
     }
   ],
-  "last_structure_digest": "503def64f360f402a304d2b1328c44ae27145b57f41ee0ba49ec866c516a9f9d"
+  "last_structure_digest": "478dc6b9a33d8fd04989796f173f9b5b2ef3b71d3008963f7044c75a2317c7e4"
 }
